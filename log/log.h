@@ -45,6 +45,7 @@ public:
     void info(string&& msg);
     void debug(string&& msg);
     void init();
+    void finish();
 
 private:
     static void* write_log();

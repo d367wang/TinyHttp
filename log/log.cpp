@@ -48,13 +48,13 @@ void Logger::debug(string&& msg) {
 void* Logger::write_log() {
     ofstream file;
     while (true) {
-        getInstantce()->_log_file_lock.lock();
+//        getInstantce()->_log_file_lock.lock();
 //        file.open(getInstantce()->_log_file_path, ios::app);
 //        file << getInstantce()->_log_queue.pop() << endl;
 //        file.close();
 
         cout << getInstantce()->_log_queue.pop() << endl;
-        getInstantce()->_log_file_lock.unlock();
+//        getInstantce()->_log_file_lock.unlock();
     }
 
 }
@@ -62,4 +62,8 @@ void* Logger::write_log() {
 void Logger::init() {
     unique_ptr<thread> log_thread(new thread(write_log));
     _log_thread = move(log_thread);
+}
+
+void Logger::finish() {
+    _log_thread->join();
 }

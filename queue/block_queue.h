@@ -27,8 +27,8 @@ public:
     }
 
     T pop() {
-        unique_lock<mutex> queue_lock(_mtx);
-        while (_queue.empty()) {
+        while (1) {
+            unique_lock<mutex> queue_lock(_mtx);
             _cond.wait(queue_lock);
             if (!_queue.empty()) {
                 T log = _queue.front();
@@ -36,9 +36,9 @@ public:
                 queue_lock.unlock();
                 return log;
             }
-            queue_lock.unlock();
         }
     }
+
 };
 
 #endif //TINYHTTP_BLOCKQUEUE_H
